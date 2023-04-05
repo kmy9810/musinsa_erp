@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    게시글 자세히보기
+{% endblock %}
+
+{% block content %}
+    <div class="container timeline-container">
+        <div class="row">
+            <!-- 왼쪽 컬럼 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.username }}</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- 오른 쪽 컬럼-->
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        {% if product.author == user %}
+                                            <h3 class="mt-0"
+                                                style="text-align: left"> {{ product.name }}({{ product.size }}) </h3>
+                                            <div class="media">
+                                                <div class="media-bod">
+                                                    <h7 class="mt-0">코드번호) {{ product.code }}</h7>
+                                                    <br>
+                                                    <h7 class="mt-0">price) {{ product.price }}원</h7>
+                                                </div>
+                                            </div>
+                                            <div style="text-align: right">
+                                                <a href="/erp/delete/{{ product.id }}">
+                                                    <span class="badge rounded-pill bg-danger">삭제</span>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        {% if product.author == user %}
+                                            <form action="/erp/" method="post">
+                                                {% csrf_token %}
+                                                입고 날짜
+                                                <input type="date" name="inventory_date">
+                                                수량
+                                                <input type="number" name="quantity" min="1" max="50" step="1"
+                                                       value="1">
+                                                <hr>
+                                                <button type="submit" class="btn btn-primary" style="float:right;">입고 등록
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        {% if product.author == user %}
+                                            <form action="/erp/" method="post">
+                                                {% csrf_token %}
+                                                출고 날짜
+                                                <input type="date" name="inventory_date">
+                                                수량
+                                                <input type="number" name="quantity" min="1" max="50" step="1"
+                                                       value="1">
+                                                <hr>
+                                                <button type="submit" class="btn btn-primary" style="float:right;">출고 등록
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

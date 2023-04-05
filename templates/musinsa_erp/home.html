@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}
+    메인페이지
+{% endblock %}
+
+{% block content %}
+    <div class="container timeline-container">
+        <div class="row">
+            <!-- 왼쪽 컬럼 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.username }}</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- 오른 쪽 컬럼-->
+            <div class="col-md-7">
+                <!-- 글을 작성 하는 곳 -->
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h5 class="mt-0"> -상품등록- </h5>
+                                        <p>
+                                        <form action="/erp/" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group mb-2">
+                                                <input type="text" placeholder="코드번호" name="code" class="form-control" style="resize: none; height: 50px">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <input type="text" placeholder="상품설명" name="description" class="form-control" style="resize: none; height: 100px">
+                                            </div>
+                                            price :
+                                            <input style="width: 80px; margin-bottom: 5px" type="text" name="price">
+                                            name :
+                                            <input style="width: 150px; margin-bottom: 5px" type="text" name="name"><br>
+                                            <select name='category'> <!-- 드롭다운 메뉴 -->
+                                                <option value="j">청바지</option>
+                                                <option value="h">후드티</option>
+                                            </select>
+                                            <select name='size'> <!-- 드롭다운 메뉴 -->
+                                                <option value="S">Small</option>
+                                                <option value="M">Medium</option>
+                                                <option value="L">Large</option>
+                                                <option value="F">Free</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-primary" style="float:right;">등록하기
+                                            </button>
+                                        </form>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <!-- 작성 된 글이 나오는 곳 -->
+                <div class="row">
+                    {% for pd in product %}
+                        <div class="col-md-12 mb-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    {% if pd.author == user %}
+                                        <div style="text-align: right">
+                                            <a href="/erp/delete/{{ pd.id }}">
+                                                <span class="badge rounded-pill bg-danger">삭제</span>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                    <div style="text-align: right">
+                                        <a href="/erp/{{ pd.id }}">
+                                            <span class="badge rounded-pill bg-success">재고 관리</span>
+                                        </a>
+                                    </div>
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h2 class="mt-0">{{ pd.name }}({{ pd.size }})</h2>
+                                            <h5 class="mt-0">{{ pd.code }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% endblock %}
