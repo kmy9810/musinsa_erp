@@ -10,10 +10,20 @@
             <!-- 왼쪽 컬럼 -->
             <div class="col-md-3">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="text-align: center">
                         <h5 class="card-title">{{ user.username }}</h5>
                     </div>
                 </div>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" style="text-align: center;">
+                        <a class="nav-link" href="/erp">  상품 등록 <span class="sr-only"></span></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" style="text-align: center;">
+                        <a class="nav-link" href="/erp/{{ user.id }}">  재고 관리 <span class="sr-only"></span></a>
+                    </li>
+                </ul>
             </div>
             <!-- 오른 쪽 컬럼-->
             <div class="col-md-7">
@@ -23,69 +33,68 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body">
-                                        {% if product.author == user %}
-                                            <h3 class="mt-0"
-                                                style="text-align: left"> {{ product.name }}({{ product.size }}) </h3>
-                                            <div class="media">
-                                                <div class="media-bod">
-                                                    <h7 class="mt-0">코드번호) {{ product.code }}</h7>
-                                                    <br>
-                                                    <h7 class="mt-0">price) {{ product.price }}원</h7>
+                                        <div class="media-body">
+                                            <h5 class="mt-0"> -재고관리- </h5>
+                                            <p>
+                                            <form action="/erp/{{ user.id }}" method="post">
+                                                {% csrf_token %}
+                                                <div class="form-group mb-2">
+                                                    <input type="text" placeholder="코드번호" name="code"
+                                                           class="form-control"
+                                                           style="resize: none; height: 50px; width: 200px; display: inline-block">
+                                                    수량
+                                                    <input type="number" name="increased_inventory" min="1" max="1000"
+                                                           step="1"
+                                                           value="1" style="display: inline-block">
+                                                    <button type="submit" class="btn btn-primary" style="float:right;">
+                                                        입고
+                                                    </button>
+                                                    <hr>
                                                 </div>
-                                            </div>
-                                            <div style="text-align: right">
-                                                <a href="/erp/delete/{{ product.id }}">
-                                                    <span class="badge rounded-pill bg-danger">삭제</span>
-                                                </a>
-                                            </div>
-                                        {% endif %}
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body">
-                                        {% if product.author == user %}
-                                            <form action="/erp/" method="post">
-                                                {% csrf_token %}
-                                                입고 날짜
-                                                <input type="date" name="inventory_date">
-                                                수량
-                                                <input type="number" name="quantity" min="1" max="50" step="1"
-                                                       value="1">
-                                                <hr>
-                                                <button type="submit" class="btn btn-primary" style="float:right;">입고 등록
-                                                </button>
                                             </form>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body">
-                                        {% if product.author == user %}
-                                            <form action="/erp/" method="post">
+                                            <form action="/erp/delete-inventory/{{ user.id }}" method="post">
                                                 {% csrf_token %}
-                                                출고 날짜
-                                                <input type="date" name="inventory_date">
-                                                수량
-                                                <input type="number" name="quantity" min="1" max="50" step="1"
-                                                       value="1">
-                                                <hr>
-                                                <button type="submit" class="btn btn-primary" style="float:right;">출고 등록
-                                                </button>
+                                                <div class="form-group mb-2">
+                                                    <input type="text" placeholder="코드번호" name="code"
+                                                           class="form-control"
+                                                           style="resize: none; height: 50px; width: 200px; display: inline-block">
+                                                    수량
+                                                    <input type="number" name="increased_inventory" min="1" max="1000"
+                                                           step="1"
+                                                           value="1" style="display: inline-block">
+                                                    <button type="submit" class="btn btn-primary" style="float:right;">
+                                                        출고
+                                                    </button>
+                                                    <hr>
+                                                </div>
                                             </form>
-                                        {% endif %}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <table id="table" class="table" style="text-align: center">
+                            <thead>
+                            <tr>
+                                <th>카테고리</th>
+                                <th>상품명</th>
+                                <th>사이즈</th>
+                                <th>상품코드</th>
+                                <th>재고</th>
+                            </tr>
+                            {% for iv in inventory %}
+                                <tr>
+                                    <th>{{ iv.product.category }}</th>
+                                    <th>{{ iv.product.name }}</th>
+                                    <th>{{ iv.product.size }}</th>
+                                    <th>{{ iv.product.code }}</th>
+                                    <th>{{ iv.increased_inventory }}</th>
+                                </tr>
+                            {% endfor %}
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>

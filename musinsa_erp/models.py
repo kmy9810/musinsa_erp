@@ -2,7 +2,6 @@
 from django.db import models
 from musinsa_user.models import UserModel
 
-
 class Product(models.Model):
     class Meta:
         db_table = "product"

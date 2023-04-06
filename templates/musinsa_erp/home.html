@@ -9,10 +9,20 @@
             <!-- 왼쪽 컬럼 -->
             <div class="col-md-3">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="text-align: center">
                         <h5 class="card-title">{{ user.username }}</h5>
                     </div>
                 </div>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" style="text-align: center;">
+                        <a class="nav-link" href="/erp">  상품 등록 <span class="sr-only"></span></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" style="text-align: center;">
+                        <a class="nav-link" href="/erp/{{ user.id }}">  재고 관리 <span class="sr-only"></span></a>
+                    </li>
+                </ul>
             </div>
             <!-- 오른 쪽 컬럼-->
             <div class="col-md-7">
@@ -28,10 +38,12 @@
                                         <form action="/erp/" method="post">
                                             {% csrf_token %}
                                             <div class="form-group mb-2">
-                                                <input type="text" placeholder="코드번호" name="code" class="form-control" style="resize: none; height: 50px">
+                                                <input type="text" placeholder="코드번호" name="code" class="form-control"
+                                                       style="resize: none; height: 50px">
                                             </div>
                                             <div class="form-group mb-2">
-                                                <input type="text" placeholder="상품설명" name="description" class="form-control" style="resize: none; height: 100px">
+                                                <input type="text" placeholder="상품설명" name="description"
+                                                       class="form-control" style="resize: none; height: 100px">
                                             </div>
                                             price :
                                             <input style="width: 80px; margin-bottom: 5px" type="text" name="price">
@@ -58,35 +70,6 @@
                     </div>
                 </div>
                 <hr>
-                <!-- 작성 된 글이 나오는 곳 -->
-                <div class="row">
-                    {% for pd in product %}
-                        <div class="col-md-12 mb-2">
-                            <div class="card">
-                                <div class="card-body">
-                                    {% if pd.author == user %}
-                                        <div style="text-align: right">
-                                            <a href="/erp/delete/{{ pd.id }}">
-                                                <span class="badge rounded-pill bg-danger">삭제</span>
-                                            </a>
-                                        </div>
-                                    {% endif %}
-                                    <div style="text-align: right">
-                                        <a href="/erp/{{ pd.id }}">
-                                            <span class="badge rounded-pill bg-success">재고 관리</span>
-                                        </a>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <h2 class="mt-0">{{ pd.name }}({{ pd.size }})</h2>
-                                            <h5 class="mt-0">{{ pd.code }}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
             </div>
             <div class="col-md-2"></div>
         </div>
