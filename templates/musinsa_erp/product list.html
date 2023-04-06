@@ -1,10 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}
+    게시글 자세히보기
+{% endblock %}
+
+{% block content %}
+    <div class="container timeline-container">
+        <div class="row">
+            <!-- 왼쪽 컬럼 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body" style="text-align: center">
+                        <h5 class="card-title">{{ user.username }}</h5>
+                    </div>
+                </div>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" style="text-align: center;">
+                        <a class="nav-link" href="/erp"> 상품 등록 <span class="sr-only"></span></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" style="text-align: center;">
+                        <a class="nav-link" href="/erp/list/{{ user.id }}"> 상품 정보 <span class="sr-only"></span></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" style="text-align: center;">
+                        <a class="nav-link" href="/erp/{{ user.id }}"> 재고 관리 <span class="sr-only"></span></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 오른 쪽 컬럼-->
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <table id="table" class="table" style="text-align: center; width: 100%">
+                            <thead>
+                            <tr>
+                                <th>카테고리</th>
+                                <th>상품명</th>
+                                <th>사이즈</th>
+                                <th>상품코드</th>
+                                <th>설명</th>
+                                <th>재고</th>
+                            </tr>
+                            {% for iv in inventory %}
+                                <tr>
+                                    <th>{{ iv.product.category }}</th>
+                                    <th>{{ iv.product.name }}</th>
+                                    <th>{{ iv.product.size }}</th>
+                                    <th>{{ iv.product.code }}</th>
+                                    <th>{{ iv.product.description }}</th>
+                                    <th>{{ iv.increased_inventory }}</th>
+                                </tr>
+                            {% endfor %}
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -11,3 +11,4 @@ class Inventory(models.Model):
     author = models.ForeignKey(UserModel, on_delete=models.CASCADE)  # 다른 모델에서 찾조
     product = models.ForeignKey(Product, on_delete=models.CASCADE)  # 상품 외래키
     increased_inventory = models.IntegerField(null=False)
+    decreased_inventory = models.IntegerField(null=False)

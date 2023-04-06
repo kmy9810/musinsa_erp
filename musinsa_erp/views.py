@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model  # 사용자가 데이터베이�
 def home(request):
     user = request.user.is_authenticated
     if user:
-        return render(request, 'index.html')
+        return redirect('/erp')
     else:
         return redirect('/sign-in')
 
@@ -44,11 +44,18 @@ def erp(request):
             my_inventory = Inventory()
             my_inventory.author = user
             my_inventory.increased_inventory = 0
+            my_inventory.decreased_inventory = 0
             my_product = Product.objects.get(id=my_product.id)
             my_inventory.product = my_product
             my_inventory.save()
             return redirect('/erp')
 
+@login_required
+def show_list(request, id):
+    user = request.user
+    my_inventory = Inventory.objects.filter(author_id=user).order_by('product__category', 'product__name'
+                                                                     , 'product__code')  # 해당유저
+    return render(request, 'musinsa_erp/product list.html', {'inventory': my_inventory})
 
 @login_required
 def delete_erp(request, id):
@@ -61,9 +68,9 @@ def delete_erp(request, id):
 def inventory(request, id):
     if request.method == 'GET':
         user = request.user
-        my_product = Product.objects.filter(author_id=id).order_by('category', 'name', '-size')
-        my_inventory = Inventory.objects.filter(author_id=user).order_by()  # 해당유저
-        return render(request, 'musinsa_erp/inventory.html', {'product': my_product, 'inventory': my_inventory})
+        my_inventory = Inventory.objects.filter(author_id=user).order_by('product__category', 'product__name'
+                                                                         , 'product__code')  # 해당유저
+        return render(request, 'musinsa_erp/inventory.html', {'inventory': my_inventory})
     elif request.method == 'POST':
         code = request.POST.get('code', '')
         if code == '':
@@ -89,5 +96,6 @@ def delete_inventory(request, id):
             return redirect('inventory', id)
         else:
             my_inventory.increased_inventory -= int(request.POST.get('increased_inventory', ''))
+            my_inventory.decreased_inventory += int(request.POST.get('increased_inventory', ''))
             my_inventory.save()
             return redirect('inventory', id)
