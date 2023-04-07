@@ -19,6 +19,7 @@ def sign_up_view(request):
         password = request.POST.get('password', None)
         password2 = request.POST.get('password2', None)
 
+
         if password != password2:
             print("비밀번호가 다릅니다.")
             return render(request, 'musinsa_user/signup.html')

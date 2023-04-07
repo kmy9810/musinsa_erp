@@ -52,8 +52,7 @@ def erp(request):
 
 @login_required
 def show_list(request, id):
-    user = request.user
-    my_inventory = Inventory.objects.filter(author_id=user).order_by('product__category', 'product__name'
+    my_inventory = Inventory.objects.filter(author_id=id).order_by('product__category', 'product__name'
                                                                      , 'product__code')  # 해당유저
     return render(request, 'musinsa_erp/product list.html', {'inventory': my_inventory})
 
