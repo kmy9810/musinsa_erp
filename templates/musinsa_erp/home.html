@@ -42,28 +42,7 @@
                                         <p>
                                         <form action="/erp/" method="post">
                                             {% csrf_token %}
-                                            <div class="form-group mb-2">
-                                                <input type="text" placeholder="코드번호" name="code" class="form-control"
-                                                       style="resize: none; height: 50px">
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <input type="text" placeholder="상품설명" name="description"
-                                                       class="form-control" style="resize: none; height: 100px">
-                                            </div>
-                                            price :
-                                            <input style="width: 80px; margin-bottom: 5px" type="text" name="price">
-                                            name :
-                                            <input style="width: 150px; margin-bottom: 5px" type="text" name="name"><br>
-                                            <select name='category'> <!-- 드롭다운 메뉴 -->
-                                                <option value="j">청바지</option>
-                                                <option value="h">후드티</option>
-                                            </select>
-                                            <select name='size'> <!-- 드롭다운 메뉴 -->
-                                                <option value="S">Small</option>
-                                                <option value="M">Medium</option>
-                                                <option value="L">Large</option>
-                                                <option value="F">Free</option>
-                                            </select>
+                                            {{ product_form }}
                                             <button type="submit" class="btn btn-primary" style="float:right;">등록하기
                                             </button>
                                         </form>

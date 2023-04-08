@@ -47,10 +47,7 @@
                                                     <input type="text" placeholder="코드번호" name="code"
                                                            class="form-control"
                                                            style="resize: none; height: 50px; width: 200px; display: inline-block">
-                                                    수량
-                                                    <input type="number" name="increased_inventory" min="1" max="1000"
-                                                           step="1"
-                                                           value="1" style="display: inline-block">
+                                                    {{ inventory_form.increased_inventory }}
                                                     <button type="submit" class="btn btn-primary" style="float:right;">
                                                         입고
                                                     </button>
@@ -63,10 +60,7 @@
                                                     <input type="text" placeholder="코드번호" name="code"
                                                            class="form-control"
                                                            style="resize: none; height: 50px; width: 200px; display: inline-block">
-                                                    수량
-                                                    <input type="number" name="increased_inventory" min="1" max="1000"
-                                                           step="1"
-                                                           value="1" style="display: inline-block">
+                                                    {{ inventory_form.decreased_inventory }}
                                                     <button type="submit" class="btn btn-primary" style="float:right;">
                                                         출고
                                                     </button>

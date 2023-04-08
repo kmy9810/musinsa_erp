@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Product
+from .forms import ProductForm
+from inventory.forms import InventoryForm
 from inventory.models import Inventory
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model  # 사용자가 데이터베이스 안에 있는지 검사하는 함수
@@ -9,7 +11,8 @@ from django.contrib.auth import get_user_model  # 사용자가 데이터베이�
 def home(request):
     user = request.user.is_authenticated
     if user:
-        return redirect('/erp')
+        product_form = ProductForm()
+        return redirect('/erp', {'product_form': product_form})
     else:
         return redirect('/sign-in')
 
@@ -20,7 +23,8 @@ def erp(request):
         if user:
             user = request.user
             all_product = Product.objects.filter(author_id=user).order_by()
-            return render(request, 'musinsa_erp/home.html', {'product': all_product})
+            product_form = ProductForm()
+            return render(request, 'musinsa_erp/home.html', {'product': all_product, 'product_form':product_form})
     elif request.method == "POST":
         user = request.user
         my_product = Product()
@@ -36,8 +40,6 @@ def erp(request):
 
         if my_product.code in Product.objects.filter(author_id=user):
             print('이미 존재하는 상품입니다.')
-            return redirect('/erp')
-        if check_name and check_size:  # 유저가 등록한 product 중에서 상품명과 사이즈가 같다면 저장 x
             return redirect('/erp')
         else:  # 상품 등록과 동시에 재고관리 Db에도 저장
             my_product.save()
@@ -69,7 +71,8 @@ def inventory(request, id):
         user = request.user
         my_inventory = Inventory.objects.filter(author_id=user).order_by('product__category', 'product__name'
                                                                          , 'product__code')  # 해당유저
-        return render(request, 'musinsa_erp/inventory.html', {'inventory': my_inventory})
+        inventory_form = InventoryForm()
+        return render(request, 'musinsa_erp/inventory.html', {'inventory': my_inventory, 'inventory_form': inventory_form})
     elif request.method == 'POST':
         code = request.POST.get('code', '')
         if code == '':
