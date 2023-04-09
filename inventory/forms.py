@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, NumberInput
+from django.forms import ModelForm, NumberInput
 from .models import Inventory
 
 
