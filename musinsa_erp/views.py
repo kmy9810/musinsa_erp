@@ -17,6 +17,7 @@ def home(request):
         return redirect('/sign-in')
 
 
+# 상품등록
 def erp(request):
     if request.method == 'GET':
         user = request.user.is_authenticated
@@ -29,12 +30,13 @@ def erp(request):
         user = request.user
         my_product = Product()
         my_product.author = user
-        my_product.category = request.POST.get('category', '')
-        my_product.code = request.POST.get('code', '')
-        my_product.name = request.POST.get('name', '')
-        my_product.price = request.POST.get('price', '')
-        my_product.size = request.POST.get('size', '')
-        my_product.description = request.POST.get('description', '')
+        form = request.POST
+        my_product.category = form['category']
+        my_product.code = form['code']
+        my_product.name = form['name']
+        my_product.price = form['price']
+        my_product.size = form['size']
+        my_product.description = form['size']
         check_name = Product.objects.filter(name=my_product.name, author=user)
         check_size = Product.objects.filter(size=my_product.size, author=user)
 
@@ -52,11 +54,13 @@ def erp(request):
             my_inventory.save()
             return redirect('/erp')
 
+
 @login_required
 def show_list(request, id):
     my_inventory = Inventory.objects.filter(author_id=id).order_by('product__category', 'product__name'
                                                                      , 'product__code')  # 해당유저
     return render(request, 'musinsa_erp/product list.html', {'inventory': my_inventory})
+
 
 @login_required
 def delete_erp(request, id):
